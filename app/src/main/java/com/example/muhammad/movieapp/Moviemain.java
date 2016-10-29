@@ -2,6 +2,7 @@ package com.example.muhammad.movieapp;
 
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -147,7 +148,7 @@ public class Moviemain extends AppCompatActivity {
 
                 final String APPID_PARAM = "api_key";
 
-                Uri builtUri = Uri.parse(MOVIE_BASE_URL).buildUpon().appendQueryParameter(APPID_PARAM, apiKey).build();
+                Uri builtUri = Uri.parse(MOVIE_BASE_URL).buildUpon().appendQueryParameter(APPID_PARAM, BuildConfig.Movie_API_Key).build();
 
                 URL url = new URL(builtUri.toString());
 

@@ -1,5 +1,6 @@
 package com.example.muhammad.movieapp;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -33,6 +34,7 @@ import java.net.URL;
 public class Moviemain extends AppCompatActivity {
 
     public ArrayAdapter<String> movieAdapter;
+    public static boolean IsTwoPane;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +70,7 @@ public class Moviemain extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this,Settings.class));
             return true;
         }
 

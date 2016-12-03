@@ -34,9 +34,9 @@ public class Settings extends PreferenceActivity  implements Preference.OnPrefer
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        addPreferencesFromResource(R.xml.pref_general);
+       /* addPreferencesFromResource(R.xml.pref_general);
 
-        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_type_list_key)));
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_type_list_key)));*/
 
     }
 

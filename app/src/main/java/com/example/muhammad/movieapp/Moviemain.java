@@ -50,7 +50,7 @@ public class Moviemain extends AppCompatActivity {
 
 
     }
-
+/*
     @Override
     public void setSelectedName(Movie movie) {
 
@@ -63,7 +63,7 @@ public class Moviemain extends AppCompatActivity {
             // tablet mode
         }
     }
-
+*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -19,7 +19,7 @@ android {
     }
 
     buildTypes.each {
-    it.buildConfigField('String','Movie_API_Key',"42eed9bb6fe907c5e968b63395392f31")
+  //  it.buildConfigField('String','Movie_API_Key',"42eed9bb6fe907c5e968b63395392f31")
 
 
     }

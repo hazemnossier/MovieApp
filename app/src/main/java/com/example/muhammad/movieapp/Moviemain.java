@@ -33,7 +33,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-public class Moviemain extends AppCompatActivity {
+public class Moviemain extends AppCompatActivity implements NameListener{
 
     public ArrayAdapter<String> movieAdapter;
     public static boolean IsTwoPane = false;
@@ -46,50 +46,39 @@ public class Moviemain extends AppCompatActivity {
 
         TheMovieFragment movieFragment = new TheMovieFragment();
 
-   //     movieFragment.setNameListener(this);
+          movieFragment.setNameListener(this);
+        if (getSupportFragmentManager().findFragmentById(R.id.Left_Frame) != null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.Left_Frame,movieFragment ).commit();
+        }
+        else{
+            getSupportFragmentManager().beginTransaction().add(R.id.Left_Frame, movieFragment).commit();
+        }
+        if (null != findViewById(R.id.Right_Frame)) {
+            IsTwoPane = true;
+        }
 
 
     }
-/*
-    @Override
-    public void setSelectedName(Movie movie) {
 
+
+    @Override
+    public void setSelectedName(Movie mov) {
         if (!IsTwoPane) {
 
             Intent intent = new Intent(this, DetailActivity.class);
-            intent.putExtra("movie", movie);
+            intent.putExtra("movie", mov);
             startActivity(intent);
         } else {
-            // tablet mode
+
+            DetailActivityFragment mDetailsFragment= new DetailActivityFragment();
+            Bundle extras= new Bundle();
+            extras.putParcelable("movie", mov);
+            mDetailsFragment.setArguments(extras);
+            getSupportFragmentManager().beginTransaction().replace(R.id.Right_Frame,mDetailsFragment,"").commit();
         }
-    }
-*/
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-      //  getMenuInflater().inflate(R.menu.menu_moviemain, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-     /*   if (id == R.id.action_settings) {
-            startActivity(new Intent(this,Settings.class));
-            return true;
-        }*/
-
-        return super.onOptionsItemSelected(item);
-    }
-
 
     }
+}
 
 
 

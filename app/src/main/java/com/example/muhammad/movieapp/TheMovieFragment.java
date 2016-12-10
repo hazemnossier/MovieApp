@@ -1,6 +1,7 @@
 package com.example.muhammad.movieapp;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -37,7 +38,7 @@ public class TheMovieFragment extends Fragment {
     GridView gridView;
     private NameListener mListener;
     private MovieAdapter mMovieAdapter;
-    private ArrayList<Movie> movies = new ArrayList<>();
+    private ArrayList<Movie> Mmovie = new ArrayList<>();
     ArrayList<Movie>arrayList_Favs=new ArrayList<>();
     private View view;
 
@@ -66,8 +67,8 @@ public class TheMovieFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.content_moviemain, container, false);
-        mMovieAdapter = new MovieAdapter(getActivity(),movies);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        mMovieAdapter = new MovieAdapter(getActivity(),Mmovie);
 
 
         gridView = (GridView) rootView.findViewById(R.id.gridview_movies);
@@ -78,24 +79,24 @@ public class TheMovieFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Movie movie;
-                if(movies.size()==0)
+                if(Mmovie.size()==0)
                     movie = arrayList_Favs.get(position);
                 else
-                    movie = movies.get(position);
+                    movie = Mmovie.get(position);
                 mListener.setSelectedName(movie);
             }
         });
         return rootView;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         FetchMovieURL mmovietask = new FetchMovieURL(mMovieAdapter, view);
         int id = item.getItemId();
 
 
-        movies.clear();
+        Mmovie.clear();
         gridView.setAdapter(mMovieAdapter);
         mMovieAdapter.notifyDataSetChanged();
 
@@ -103,12 +104,27 @@ public class TheMovieFragment extends Fragment {
             i will add the data base stuff here
         }*/
 
+        if (id == R.id.action_favourite) {
+            MovieDatabase movieDatabase = new MovieDatabase(getActivity());
+            Mmovie.clear();
+            mMovieAdapter.notifyDataSetChanged();
+            ArrayList<Movie> test = movieDatabase.getFavsMovies();
+            for (int i = 0; i < test.size(); i++) {
+                Mmovie.add(test.get(i));
+            }
+            mMovieAdapter = new MovieAdapter(getContext(), Mmovie);
+            mMovieAdapter.notifyDataSetChanged();
+            gridView.setAdapter(mMovieAdapter);
+        }
+
 
         if (id == R.id.action_sort_by_toprated) {
             mmovietask.execute("https://api.themoviedb.org/3/movie/top_rated?api_key=" + MYAPI);
         } else if (id == R.id.action_sort_by_popular) {
             mmovietask.execute("https://api.themoviedb.org/3/movie/popular?api_key=" +   MYAPI);
         }
+
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -121,7 +137,6 @@ public class TheMovieFragment extends Fragment {
         private final String LOG_TAG = FetchMovieURL.class.getSimpleName();
         private MovieAdapter mMovieAdapter;
         private View view;
-        private ArrayList<Movie> Mmovie = new ArrayList<>();
 
         FetchMovieURL(MovieAdapter movieadapter, View view)
         {
@@ -133,7 +148,7 @@ public class TheMovieFragment extends Fragment {
                 throws JSONException {
 
 
-            final String OWM_RESULT = "result";
+            final String OWM_RESULT = "results";
             final String OWM_ID = "id";
             final String OWM_POSTER_PATH = "poster_path";
             final String OWM_DESCRIPTION = "overview";
@@ -154,19 +169,19 @@ public class TheMovieFragment extends Fragment {
                 // Get the JSON object representing the movie
                 JSONObject Data = movieArray.getJSONObject(i);
                 Movie movie = new Movie();
-                movie.setTitle(Data.getString("title"));
-                movie.setId(Data.getString("id"));
-                movie.setPosterPath(Data.getString("poster_path"));
-                movie.setSynopsis(Data.getString("overview"));
-                movie.setRating(Data.getString("vote_average"));
-                movie.setReleaseDate(Data.getString("release_date"));
+                movie.setTitle(Data.getString(OWM_TITLE));
+                movie.setId(Data.getString(OWM_ID));
+                movie.setRating(Data.getString(OWM_RATE));
+                movie.setReleaseDate(Data.getString(OWM_RELEASE_DATE));
+                movie.setSynopsis(Data.getString(OWM_DESCRIPTION));
+                movie.setPosterPath(Data.getString(OWM_POSTER_PATH));
                 Mmovie.add(movie);
             }
             return Mmovie;
 
         }
 
-
+        @Override
         protected ArrayList<Movie> doInBackground(String... params) {
             // These two need to be declared outside the try/catch
             // so that they can be closed in the finally block.
@@ -207,8 +222,6 @@ public class TheMovieFragment extends Fragment {
                 }
                 movieJsonStr = buffer.toString();
             } catch (Exception e) {
-                Log.e(LOG_TAG, "Error ", e);
-
                 return null;
             } finally {
                 if (urlConnection != null) {
@@ -237,7 +250,7 @@ public class TheMovieFragment extends Fragment {
         @Override
         protected void onPostExecute(ArrayList<Movie> result) {
             if (result != null) {
-                super.onPostExecute(Mmovie);
+                super.onPostExecute(result);
                 mMovieAdapter.notifyDataSetChanged();
             }
         }

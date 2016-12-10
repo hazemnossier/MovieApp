@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Moviemain"
+            android:name=".UI.Moviemain"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DetailActivity"
+            android:name=".UI.DetailActivity"
             android:label="DetailActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>

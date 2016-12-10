@@ -1,7 +1,6 @@
-package com.example.muhammad.movieapp;
+package com.example.muhammad.movieapp.UI;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +22,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.muhammad.movieapp.Model.Movie;
+import com.example.muhammad.movieapp.Utilities.MovieDatabase;
+import com.example.muhammad.movieapp.R;
+import com.example.muhammad.movieapp.Model.Reviews;
+import com.example.muhammad.movieapp.Utilities.ReviewsAdapter;
+import com.example.muhammad.movieapp.Model.Trailers;
+import com.example.muhammad.movieapp.Utilities.TrailersAdapter;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;

@@ -1,4 +1,4 @@
-package com.example.muhammad.movieapp;
+package com.example.muhammad.movieapp.Utilities;
 
 import android.os.Bundle;
 import android.preference.ListPreference;

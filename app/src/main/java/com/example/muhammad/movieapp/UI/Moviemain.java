@@ -1,39 +1,17 @@
-package com.example.muhammad.movieapp;
+package com.example.muhammad.movieapp.UI;
 
-import android.app.Fragment;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.format.Time;
-import android.util.Log;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
+import com.example.muhammad.movieapp.Model.Movie;
+import com.example.muhammad.movieapp.Utilities.NameListener;
+import com.example.muhammad.movieapp.R;
 
 
-public class Moviemain extends AppCompatActivity implements NameListener{
+public class Moviemain extends AppCompatActivity implements NameListener {
 
     public ArrayAdapter<String> movieAdapter;
     public static boolean IsTwoPane = false;

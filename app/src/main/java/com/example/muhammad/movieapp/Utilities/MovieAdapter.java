@@ -1,4 +1,4 @@
-package com.example.muhammad.movieapp;
+package com.example.muhammad.movieapp.Utilities;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.example.muhammad.movieapp.Model.Movie;
+import com.example.muhammad.movieapp.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

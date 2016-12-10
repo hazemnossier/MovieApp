@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.muhammad.movieapp.Moviemain">
+    tools:context="com.example.muhammad.movieapp.UI.Moviemain">
     <item
         android:id="@+id/action_sort_by_toprated"
         android:title="Top Rated"

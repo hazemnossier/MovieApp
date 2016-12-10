@@ -1,4 +1,4 @@
-package com.example.muhammad.movieapp;
+package com.example.muhammad.movieapp.Model;
 
 /**
  * Created by user12 on 12/8/2016.

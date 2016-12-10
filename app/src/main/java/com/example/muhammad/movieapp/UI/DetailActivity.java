@@ -1,9 +1,11 @@
-package com.example.muhammad.movieapp;
+package com.example.muhammad.movieapp.UI;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.muhammad.movieapp.R;
 
 public class DetailActivity extends AppCompatActivity {
 

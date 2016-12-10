@@ -1,4 +1,4 @@
-package com.example.muhammad.movieapp;
+package com.example.muhammad.movieapp.Model;
 
 
 

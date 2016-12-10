@@ -1,12 +1,8 @@
-package com.example.muhammad.movieapp;
+package com.example.muhammad.movieapp.UI;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,11 +11,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
+import com.example.muhammad.movieapp.Model.Movie;
+import com.example.muhammad.movieapp.Utilities.MovieAdapter;
+import com.example.muhammad.movieapp.Utilities.MovieDatabase;
+import com.example.muhammad.movieapp.Utilities.NameListener;
+import com.example.muhammad.movieapp.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

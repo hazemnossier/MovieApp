@@ -167,6 +167,92 @@ public class DetailActivityFragment extends Fragment {
         return rootView;
     }
 
+    public class FetchReviewsTask extends AsyncTask<String, Void, ArrayList<Reviews>>{
+        private final String LOG_TAG = DetailActivityFragment.FetchReviewsTask.class.getSimpleName();
+        private ReviewsAdapter mReviewsAdapter;
+        private View view;
+        FetchReviewsTask(ReviewsAdapter mReviewsAdapter, View view)
+        {
+            this.mReviewsAdapter = mReviewsAdapter;
+            this.view = view;
+        }
+        private ArrayList<Reviews> getTrailersFromJson(String ReviewsJsonString)
+                throws JSONException {
+            final String AUTHOR = "author";
+            final String CONTENT = "content";
+            JSONObject reviewJson = new JSONObject(ReviewsJsonString);
+            JSONArray reviewsArray = reviewJson.getJSONArray("results");
+            int numTrailers = reviewsArray.length();
+            for (int i = 0; i < numTrailers; i++) {
+                JSONObject reviewData = reviewsArray.getJSONObject(i);
+                Reviews review = new Reviews();
+                review.setAuthor(reviewData.getString("author"));
+                review.setContent(reviewData.getString("content"));
+                reviews.add(review);
+            }
+
+            return reviews;
+        }
+
+
+        @Override
+        protected ArrayList<Reviews> doInBackground(String... params) {
+            HttpURLConnection urlConnection = null;
+            BufferedReader reader = null;
+            String moviesJsonStr = null;
+            try {
+                URL url = new URL(params[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+                InputStream inputStream = urlConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                if (inputStream == null) {
+                    return null;
+                }
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+
+                    buffer.append(line + "\n");
+                }
+                if (buffer.length() == 0) {
+                    return null;
+                }
+                moviesJsonStr = buffer.toString();
+            } catch (Exception e) {
+                Log.e(LOG_TAG, "Error ", e);
+                return null;
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e(LOG_TAG, "Error closing stream", e);
+                    }
+                }
+            }
+
+            try {
+                Log.d("YAG",moviesJsonStr.toString());
+                return getTrailersFromJson(moviesJsonStr);
+            } catch (JSONException e) {
+                Log.e(LOG_TAG, e.getMessage(), e);
+                e.printStackTrace();
+            }
+            return null;        }
+        @Override
+        protected void onPostExecute(ArrayList<Reviews> reviewsList) {
+            super.onPostExecute(reviewsList);
+            mReviewsAdapter.notifyDataSetChanged();
+
+        }
+    }
+
     public void  InsertInFavs() {
 
         final String id = "id";
@@ -278,91 +364,7 @@ public class DetailActivityFragment extends Fragment {
     }
 
 
-    public class FetchReviewsTask extends AsyncTask<String, Void, ArrayList<Reviews>>{
-        private final String LOG_TAG = DetailActivityFragment.FetchReviewsTask.class.getSimpleName();
-        private ReviewsAdapter mReviewsAdapter;
-        private View view;
-        FetchReviewsTask(ReviewsAdapter mReviewsAdapter, View view)
-        {
-            this.mReviewsAdapter = mReviewsAdapter;
-            this.view = view;
-        }
-        private ArrayList<Reviews> getTrailersFromJson(String ReviewsJsonString)
-                throws JSONException {
-            final String AUTHOR = "author";
-            final String CONTENT = "content";
-            JSONObject reviewJson = new JSONObject(ReviewsJsonString);
-            JSONArray reviewsArray = reviewJson.getJSONArray("results");
-            int numTrailers = reviewsArray.length();
-            for (int i = 0; i < numTrailers; i++) {
-                JSONObject reviewData = reviewsArray.getJSONObject(i);
-                Reviews review = new Reviews();
-                review.setAuthor(reviewData.getString("author"));
-                review.setContent(reviewData.getString("content"));
-                reviews.add(review);
-            }
 
-            return reviews;
-        }
-
-
-        @Override
-        protected ArrayList<Reviews> doInBackground(String... params) {
-            HttpURLConnection urlConnection = null;
-            BufferedReader reader = null;
-            String moviesJsonStr = null;
-            try {
-                URL url = new URL(params[0]);
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
-                InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
-                if (inputStream == null) {
-                    return null;
-                }
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-
-                    buffer.append(line + "\n");
-                }
-                if (buffer.length() == 0) {
-                    return null;
-                }
-                moviesJsonStr = buffer.toString();
-            } catch (Exception e) {
-                Log.e(LOG_TAG, "Error ", e);
-                return null;
-            } finally {
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (final IOException e) {
-                        Log.e(LOG_TAG, "Error closing stream", e);
-                    }
-                }
-            }
-
-            try {
-                Log.d("YAG",moviesJsonStr.toString());
-                return getTrailersFromJson(moviesJsonStr);
-            } catch (JSONException e) {
-                Log.e(LOG_TAG, e.getMessage(), e);
-                e.printStackTrace();
-            }
-            return null;        }
-        @Override
-        protected void onPostExecute(ArrayList<Reviews> reviewsList) {
-            super.onPostExecute(reviewsList);
-            mReviewsAdapter.notifyDataSetChanged();
-
-        }
-    }
 
 
 }

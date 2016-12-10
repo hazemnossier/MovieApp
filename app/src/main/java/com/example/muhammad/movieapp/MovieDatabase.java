@@ -42,22 +42,17 @@ public class MovieDatabase extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE);
-        Toast.makeText(context,"DB Created",Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(DropTable);
-        Toast.makeText(context,"DB to Update",Toast.LENGTH_LONG).show();
-
         onCreate(db);
     }
 
     public long insetInDb(ContentValues values){
         SQLiteDatabase db=this.getWritableDatabase();
         long n=   db.insert(Table,null,values);
-        Toast.makeText(context,getFavsMovies().size()+"",Toast.LENGTH_LONG).show();
-
         return  n;
 
 
@@ -90,10 +85,8 @@ public class MovieDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         int n= db.delete(Table,Mid +"="+id,null);
         if (n==0){
-            Toast.makeText(context,"not deleted",Toast.LENGTH_LONG).show();
-
         }
-        else         Toast.makeText(context,"Deleted",Toast.LENGTH_LONG).show();
+        else         Toast.makeText(context,"Removed from fav ",Toast.LENGTH_LONG).show();
 
         db.close();
     }

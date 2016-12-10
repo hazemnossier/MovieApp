@@ -105,24 +105,21 @@ public class DetailActivityFragment extends Fragment {
             rating.setText(movie_rating);
         }
 
-        //Trailers
+
         mTrailersAdapter = new TrailersAdapter(getActivity(), List);
         FetchTrailersTask trailersTask = new FetchTrailersTask(mTrailersAdapter, rootView);
 
-        // click method for the fav Button
         FavBtn.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
 
                 if (movieDatabase.IfExist(moviewid)){
-                    Toast.makeText(getContext(),"Exist",Toast.LENGTH_LONG).show();
                     movieDatabase.delete_movie(moviewid);
                 }
                 else {
-                    Toast.makeText(getContext(),"Not exist",Toast.LENGTH_LONG).show();
                     InsertInFavs();
-                    Toast.makeText(getContext(),"Added",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(),"Added to fav ",Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -224,39 +221,31 @@ public class DetailActivityFragment extends Fragment {
         protected ArrayList<Trailers> doInBackground(String... params) {
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
-            // Will contain the raw JSON response as a string.
             String moviesJsonStr = null;
             try {
                 URL url = new URL(params[0]);
-                // Create the request to moviedb, and open the connection
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
-                // Read the input stream into a String
                 InputStream inputStream = urlConnection.getInputStream();
                 StringBuffer buffer = new StringBuffer();
                 if (inputStream == null) {
-                    // Nothing to do.
                     return null;
                 }
                 reader = new BufferedReader(new InputStreamReader(inputStream));
 
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                    // But it does make debugging a *lot* easier if you print out the completed
-                    // buffer for debugging.
+
                     buffer.append(line + "\n");
                 }
                 if (buffer.length() == 0) {
-                    // Stream was empty.  No point in parsing.
                     return null;
                 }
                 moviesJsonStr = buffer.toString();
             } catch (Exception e) {
                 Log.e(LOG_TAG, "Error ", e);
-                // If the code didn't successfully get the movie data, there's no point in attemping
-                // to parse it.
+
                 return null;
             } finally {
                 if (urlConnection != null) {
@@ -279,7 +268,6 @@ public class DetailActivityFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            // This will only happen if there was an error getting or parsing the forecast.
             return null;        }
         @Override
         protected void onPostExecute(ArrayList<Trailers> trailersList) {

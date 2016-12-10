@@ -11,6 +11,9 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        DetailActivityFragment df = new DetailActivityFragment();
+        df.setArguments(getIntent().getExtras());
+        getSupportFragmentManager().beginTransaction().add(R.id.Right_Frame, df).commit();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
